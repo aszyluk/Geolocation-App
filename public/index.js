@@ -9,6 +9,12 @@ if ("geolocation" in navigator) {
   const tiles = L.tileLayer(tileUrl, { attr }).addTo(map);
 
   const marker = L.marker([0, 0]).addTo(map);
+  const issIcon = L.icon({
+    iconUrl: "iss.png",
+    iconSize: [38, 95], // size of the icon
+    iconAnchor: [22, 94] // point of the icon which will correspond to marker's location
+  });
+  const issMark = L.marker([0, 0], { icon: issIcon }).addTo(map);
   tiles.addTo(map);
 
   geo.getCurrentPosition(position => {
@@ -20,6 +26,17 @@ if ("geolocation" in navigator) {
 
     marker.setLatLng([lat, lon]);
   });
+
+  async function getISSData() {
+    const response = await fetch("http://api.open-notify.org/iss-now.json");
+    const data = await response.json();
+
+    const lon = data["iss_position"].longitude;
+    const lat = data["iss_position"].latitude;
+    issMark.setLatLng([lat, lon]);
+  }
+  getISSData();
+  setInterval(getISSData, 5000);
 } else {
   prompt("You need geolocation enabled to properly utilize this website.");
 }
