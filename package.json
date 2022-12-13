@@ -4,7 +4,7 @@
   "description": "Testing server-side programming using examples from The Coding Train.",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.3"
   },
   "devDependencies": {},
   "scripts": {
